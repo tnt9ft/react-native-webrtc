@@ -7,7 +7,7 @@ import com.facebook.react.uimanager.ThemedReactContext;
 
 public class RTCVideoViewManager extends SimpleViewManager<WebRTCView> {
   private static final String REACT_CLASS = "RTCVideoView";
-
+  AudioManager myAudioManager;
   @Override
   public String getName() {
     return REACT_CLASS;
@@ -15,6 +15,7 @@ public class RTCVideoViewManager extends SimpleViewManager<WebRTCView> {
 
   @Override
   public WebRTCView createViewInstance(ThemedReactContext context) {
+    myAudioManager = (AudioManager) reactContext.getSystemService (Context.AUDIO_SERVICE);
     return new WebRTCView(context);
   }
 
@@ -54,6 +55,8 @@ public class RTCVideoViewManager extends SimpleViewManager<WebRTCView> {
 
   @ReactProp(name = "streamURL")
   public void setStreamURL(WebRTCView view, String streamURL) {
+    myAudioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
+    myAudioManager.setSpeakerphoneOn(true);
     view.setStreamURL(streamURL);
   }
 

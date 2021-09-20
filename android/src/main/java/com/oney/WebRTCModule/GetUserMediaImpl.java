@@ -107,6 +107,7 @@ class GetUserMediaImpl {
 
         AudioSource audioSource = pcFactory.createAudioSource(peerConstraints);
         AudioTrack track = pcFactory.createAudioTrack(id, audioSource);
+        track.setEnabled(true);
         tracks.put(
             id,
             new TrackPrivate(track, audioSource, /* videoCapturer */ null));
