@@ -151,10 +151,11 @@ public class WebRTCView extends ViewGroup {
      * The {@code VideoTrack}, if any, rendered by this {@code WebRTCView}.
      */
     private VideoTrack videoTrack;
+    private AudioManager myAudioManager;
 
-    public WebRTCView(Context context) {
+    public WebRTCView(Context context, AudioManager myAudioManager) {
         super(context);
-
+        myAudioManager = myAudioManager;
         surfaceViewRenderer = new SurfaceViewRenderer(context);
         addView(surfaceViewRenderer);
 
@@ -204,6 +205,8 @@ public class WebRTCView extends ViewGroup {
         } finally {
             super.onAttachedToWindow();
         }
+        myAudioManager.setMode(AudioManager.MODE_NORMAL);
+        myAudioManager.setSpeakerphoneOn(false);
     }
 
     @Override
