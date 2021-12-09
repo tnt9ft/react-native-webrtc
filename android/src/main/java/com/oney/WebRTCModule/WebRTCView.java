@@ -26,7 +26,7 @@ import org.webrtc.RendererCommon.RendererEvents;
 import org.webrtc.RendererCommon.ScalingType;
 import org.webrtc.SurfaceViewRenderer;
 import org.webrtc.VideoTrack;
-
+import android.media.AudioManager;
 public class WebRTCView extends ViewGroup {
     /**
      * The scaling type to be utilized by default.
