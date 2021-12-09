@@ -205,8 +205,6 @@ public class WebRTCView extends ViewGroup {
         } finally {
             super.onAttachedToWindow();
         }
-        myAudioManager.setMode(AudioManager.MODE_NORMAL);
-        myAudioManager.setSpeakerphoneOn(false);
     }
 
     @Override
@@ -221,6 +219,8 @@ public class WebRTCView extends ViewGroup {
         } finally {
             super.onDetachedFromWindow();
         }
+        myAudioManager.setMode(AudioManager.MODE_NORMAL);
+        myAudioManager.setSpeakerphoneOn(false);
     }
 
     /**
@@ -291,41 +291,41 @@ public class WebRTCView extends ViewGroup {
             }
 
             switch (scalingType) {
-            case SCALE_ASPECT_FILL:
-                // Fill this ViewGroup with surfaceViewRenderer and the latter
-                // will take care of filling itself with the video similarly to
-                // the cover value the CSS property object-fit.
-                r = width;
-                l = 0;
-                b = height;
-                t = 0;
-                break;
-            case SCALE_ASPECT_FIT:
-            default:
-                // Lay surfaceViewRenderer out inside this ViewGroup in accord
-                // with the contain value of the CSS property object-fit.
-                // SurfaceViewRenderer will fill itself with the video similarly
-                // to the cover or contain value of the CSS property object-fit
-                // (which will not matter, eventually).
-                if (frameHeight == 0 || frameWidth == 0) {
-                    l = t = r = b = 0;
-                } else {
-                    float frameAspectRatio
-                        = (frameRotation % 180 == 0)
-                            ? frameWidth / (float) frameHeight
-                            : frameHeight / (float) frameWidth;
-                    Point frameDisplaySize
-                        = RendererCommon.getDisplaySize(
+                case SCALE_ASPECT_FILL:
+                    // Fill this ViewGroup with surfaceViewRenderer and the latter
+                    // will take care of filling itself with the video similarly to
+                    // the cover value the CSS property object-fit.
+                    r = width;
+                    l = 0;
+                    b = height;
+                    t = 0;
+                    break;
+                case SCALE_ASPECT_FIT:
+                default:
+                    // Lay surfaceViewRenderer out inside this ViewGroup in accord
+                    // with the contain value of the CSS property object-fit.
+                    // SurfaceViewRenderer will fill itself with the video similarly
+                    // to the cover or contain value of the CSS property object-fit
+                    // (which will not matter, eventually).
+                    if (frameHeight == 0 || frameWidth == 0) {
+                        l = t = r = b = 0;
+                    } else {
+                        float frameAspectRatio
+                                = (frameRotation % 180 == 0)
+                                ? frameWidth / (float) frameHeight
+                                : frameHeight / (float) frameWidth;
+                        Point frameDisplaySize
+                                = RendererCommon.getDisplaySize(
                                 scalingType,
                                 frameAspectRatio,
                                 width, height);
 
-                    l = (width - frameDisplaySize.x) / 2;
-                    t = (height - frameDisplaySize.y) / 2;
-                    r = l + frameDisplaySize.x;
-                    b = t + frameDisplaySize.y;
-                }
-                break;
+                        l = (width - frameDisplaySize.x) / 2;
+                        t = (height - frameDisplaySize.y) / 2;
+                        r = l + frameDisplaySize.x;
+                        b = t + frameDisplaySize.y;
+                    }
+                    break;
             }
         }
         surfaceViewRenderer.layout(l, t, r, b);
@@ -354,6 +354,7 @@ public class WebRTCView extends ViewGroup {
             }
             requestSurfaceViewRendererLayout();
         }
+
     }
 
     /**
@@ -370,8 +371,8 @@ public class WebRTCView extends ViewGroup {
         // rotation change. The following will suffice.
         if (!ViewCompat.isInLayout(this)) {
             onLayout(
-                /* changed */ false,
-                getLeft(), getTop(), getRight(), getBottom());
+                    /* changed */ false,
+                    getLeft(), getTop(), getRight(), getBottom());
         }
     }
 
@@ -405,7 +406,7 @@ public class WebRTCView extends ViewGroup {
      */
     public void setObjectFit(String objectFit) {
         ScalingType scalingType
-            = "cover".equals(objectFit)
+                = "cover".equals(objectFit)
                 ? ScalingType.SCALE_ASPECT_FILL
                 : ScalingType.SCALE_ASPECT_FIT;
 
@@ -502,15 +503,15 @@ public class WebRTCView extends ViewGroup {
      */
     public void setZOrder(int zOrder) {
         switch (zOrder) {
-        case 0:
-            surfaceViewRenderer.setZOrderMediaOverlay(false);
-            break;
-        case 1:
-            surfaceViewRenderer.setZOrderMediaOverlay(true);
-            break;
-        case 2:
-            surfaceViewRenderer.setZOrderOnTop(true);
-            break;
+            case 0:
+                surfaceViewRenderer.setZOrderMediaOverlay(false);
+                break;
+            case 1:
+                surfaceViewRenderer.setZOrderMediaOverlay(true);
+                break;
+            case 2:
+                surfaceViewRenderer.setZOrderOnTop(true);
+                break;
         }
     }
 
