@@ -16,13 +16,7 @@ public class RTCVideoViewManager extends SimpleViewManager<WebRTCView> {
   @Override
   public WebRTCView createViewInstance(ThemedReactContext context) {
     myAudioManager = (AudioManager) context.getSystemService (Context.AUDIO_SERVICE);
-    return new WebRTCView(context, new WebRTCView.OnAudiolistener() {
-      @Override
-      public void onResetModeAudio() {
-        myAudioManager.setMode(AudioManager.MODE_NORMAL);
-        myAudioManager.setSpeakerphoneOn(false);
-      }
-    });
+    return new WebRTCView(context);
   }
 
   /**

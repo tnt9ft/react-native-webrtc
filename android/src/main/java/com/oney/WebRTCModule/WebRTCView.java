@@ -44,7 +44,7 @@ public class WebRTCView extends ViewGroup {
      * video represent nothing.
      */
     private static final ScalingType DEFAULT_SCALING_TYPE
-        = ScalingType.SCALE_ASPECT_FIT;
+            = ScalingType.SCALE_ASPECT_FIT;
 
     private static final String TAG = WebRTCModule.TAG;
 
@@ -98,21 +98,21 @@ public class WebRTCView extends ViewGroup {
      * {@link #surfaceViewRenderer}.
      */
     private final RendererEvents rendererEvents
-        = new RendererEvents() {
-            @Override
-            public void onFirstFrameRendered() {
-                WebRTCView.this.onFirstFrameRendered();
-            }
+            = new RendererEvents() {
+        @Override
+        public void onFirstFrameRendered() {
+            WebRTCView.this.onFirstFrameRendered();
+        }
 
-            @Override
-            public void onFrameResolutionChanged(
-                    int videoWidth, int videoHeight,
-                    int rotation) {
-                WebRTCView.this.onFrameResolutionChanged(
-                        videoWidth, videoHeight,
-                        rotation);
-            }
-        };
+        @Override
+        public void onFrameResolutionChanged(
+                int videoWidth, int videoHeight,
+                int rotation) {
+            WebRTCView.this.onFrameResolutionChanged(
+                    videoWidth, videoHeight,
+                    rotation);
+        }
+    };
 
     /**
      * The {@code Runnable} representation of
@@ -121,12 +121,12 @@ public class WebRTCView extends ViewGroup {
      * initializing new instances on every (method) call.
      */
     private final Runnable requestSurfaceViewRendererLayoutRunnable
-        = new Runnable() {
-            @Override
-            public void run() {
-                requestSurfaceViewRendererLayout();
-            }
-        };
+            = new Runnable() {
+        @Override
+        public void run() {
+            requestSurfaceViewRendererLayout();
+        }
+    };
 
     /**
      * The scaling type this {@code WebRTCView} is to apply to the video
@@ -152,11 +152,9 @@ public class WebRTCView extends ViewGroup {
      */
     private VideoTrack videoTrack;
     private AudioManager myAudioManager;
-    private OnAudiolistener onAudiolistener;
 
-    public WebRTCView(Context context, OnAudiolistener onAudiolistener) {
+    public WebRTCView(Context context) {
         super(context);
-        onAudiolistener = onAudiolistener;
         surfaceViewRenderer = new SurfaceViewRenderer(context);
         addView(surfaceViewRenderer);
 
@@ -179,7 +177,7 @@ public class WebRTCView extends ViewGroup {
         if (streamURL != null) {
             ReactContext reactContext = (ReactContext) getContext();
             WebRTCModule module
-                = reactContext.getNativeModule(WebRTCModule.class);
+                    = reactContext.getNativeModule(WebRTCModule.class);
             MediaStream stream = module.getStreamForReactTag(streamURL);
 
             if (stream != null) {
@@ -217,7 +215,6 @@ public class WebRTCView extends ViewGroup {
             // window. Additionally, a memory leak was solved in a similar way
             // on iOS.
             removeRendererFromVideoTrack();
-            onAudiolistener.onResetModeAudio();
         } finally {
             super.onDetachedFromWindow();
         }
@@ -558,8 +555,5 @@ public class WebRTCView extends ViewGroup {
 
             rendererAttached = true;
         }
-    }
-    public interface OnAudiolistener{
-        void onResetModeAudio();
     }
 }
