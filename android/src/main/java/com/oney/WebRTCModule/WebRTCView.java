@@ -152,10 +152,11 @@ public class WebRTCView extends ViewGroup {
      */
     private VideoTrack videoTrack;
     private AudioManager myAudioManager;
+    private OnAudiolistener onAudiolistener;
 
-    public WebRTCView(Context context, AudioManager myAudioManager) {
+    public WebRTCView(Context context, OnAudiolistener onAudiolistener) {
         super(context);
-        myAudioManager = myAudioManager;
+        onAudiolistener = onAudiolistener;
         surfaceViewRenderer = new SurfaceViewRenderer(context);
         addView(surfaceViewRenderer);
 
@@ -215,9 +216,8 @@ public class WebRTCView extends ViewGroup {
             // infrastructure hooked up while this View is not attached to a
             // window. Additionally, a memory leak was solved in a similar way
             // on iOS.
-            myAudioManager.setMode(AudioManager.MODE_NORMAL);
-            myAudioManager.setSpeakerphoneOn(false);
             removeRendererFromVideoTrack();
+            onAudiolistener.onResetModeAudio();
         } finally {
             super.onDetachedFromWindow();
         }
@@ -558,5 +558,8 @@ public class WebRTCView extends ViewGroup {
 
             rendererAttached = true;
         }
+    }
+    public interface OnAudiolistener{
+        void onResetModeAudio();
     }
 }
