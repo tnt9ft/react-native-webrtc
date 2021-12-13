@@ -215,12 +215,13 @@ public class WebRTCView extends ViewGroup {
             // infrastructure hooked up while this View is not attached to a
             // window. Additionally, a memory leak was solved in a similar way
             // on iOS.
+            myAudioManager.setMode(AudioManager.MODE_NORMAL);
+            myAudioManager.setSpeakerphoneOn(false);
             removeRendererFromVideoTrack();
         } finally {
             super.onDetachedFromWindow();
         }
-        myAudioManager.setMode(AudioManager.MODE_NORMAL);
-        myAudioManager.setSpeakerphoneOn(false);
+
     }
 
     /**
