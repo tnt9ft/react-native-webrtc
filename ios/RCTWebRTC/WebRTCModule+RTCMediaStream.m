@@ -10,6 +10,7 @@
 #import <WebRTC/RTCCameraVideoCapturer.h>
 #import <WebRTC/RTCVideoTrack.h>
 #import <WebRTC/RTCMediaConstraints.h>
+ #import "WebRTC/RTCAudioSession.h"
 
 #import "RTCMediaStreamTrack+React.h"
 #import "WebRTCModule+RTCPeerConnection.h"
@@ -267,6 +268,20 @@ RCT_EXPORT_METHOD(mediaStreamRelease:(nonnull NSString *)streamID)
 {
   RTCMediaStream *stream = self.localStreams[streamID];
   if (stream) {
+//       Get your app's audioSession singleton object
+       RTCAudioSession *session = [RTCAudioSession sharedInstance];
+       // Error handling
+       BOOL success;
+       NSError *error;
+
+       // Activate the audio session
+       success = [session setActive:NO error:&error];
+       if (!success) {
+           NSLog(@"AVAudioSession error activating: %@",error);
+       }
+       else {
+           NSLog(@"AudioSession active");
+       }
     [self.localStreams removeObjectForKey:streamID];
   }
 }
@@ -275,9 +290,24 @@ RCT_EXPORT_METHOD(mediaStreamTrackRelease:(nonnull NSString *)trackID)
 {
     RTCMediaStreamTrack *track = self.localTracks[trackID];
     if (track) {
-        track.isEnabled = NO;
-        [track.captureController stopCapture];
-        [self.localTracks removeObjectForKey:trackID];
+      // Get your app's audioSession singleton object
+       RTCAudioSession *session = [RTCAudioSession sharedInstance];
+       // Error handling
+       BOOL success;
+       NSError *error;
+
+       // Activate the audio session
+       success = [session setActive:NO error:&error];
+       if (!success) {
+           NSLog(@"AVAudioSession error activating: %@",error);
+       }
+       else {
+           NSLog(@"AudioSession active");
+       }
+
+      track.isEnabled = NO;
+      [track.captureController stopCapture];
+      [self.localTracks removeObjectForKey:trackID];
     }
 }
 
